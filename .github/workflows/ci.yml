@@ -3,21 +3,22 @@ name: CI pipeline test
 on: [push]
 
 jobs:
-  tests:
-  run-on: ubuntu-latest
 
-steps:
-  - name: Checkour repository
-    uses: actions/checkout@v3
+  build:
+    runs-on: ubuntu-latest
 
-  - name: Build and start services
-    run: docker-compose up -d --build
-  
-  - name: Wait for app to be ready
-    run: sleep 5
+    steps:
+      - name: Checkour repository
+        uses: actions/checkout@v3
 
-  - name: Run tests inside container
-    run: docker compose exec app npm test
+      - name: Build and start services
+        run: docker compose up -d --build
+      
+      - name: Wait for app to be ready
+        run: sleep 5
 
-  - name: Stop and remove containers
-    run: docker compose down
+      - name: Run tests inside container
+        run: docker compose exec app npm test
+
+      - name: Stop and remove containers
+        run: docker compose down
